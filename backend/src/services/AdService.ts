@@ -25,6 +25,26 @@ class AdService {
       throw new Error('Échec de la suppression de l\'annonce');
     }
   }
+
+  public async getAllAds(): Promise<any> {
+    try {
+      const allAds = await Ad.find();
+      return allAds;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de toutes les annonces :', error);
+      throw new Error('Échec de la récupération de toutes les annonces');
+    }
+  }
+
+  public async getAdById(id: string): Promise<any> {
+    try {
+      const ad = await Ad.findById(id);
+      return ad;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'annonce par ID :', error);
+      throw new Error('Échec de la récupération de l\'annonce par ID');
+    }
+  }
 }
 
 export default new AdService();

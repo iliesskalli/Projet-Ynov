@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 import jwt from 'jsonwebtoken';
 
 class UserService {
-  private readonly JWT_SECRET = 'your_secret_key';  
+  private readonly JWT_SECRET = 'your_secret_key';
 
   public async register(nom: string, prenom: string, adresse: string, numeroTel: string, email: string, password: string): Promise<any> {
     const hashedPassword = this.hashPassword(password);
@@ -12,13 +12,13 @@ class UserService {
   }
 
   public async login(email: string, password: string): Promise<string> {
-    const user = await UserRepository.findUserByEmail(email);
+    const user = await this.findUserByEmail(email);
     if (!user) {
       throw new Error('Email not found');
     }
 
-    const hashedPassword = this.hashPassword(password);
-    if (user.password !== hashedPassword) {
+    const isPasswordValid = await this.comparePassword(password, user.password);
+    if (!isPasswordValid) {
       throw new Error('Invalid password');
     }
 
@@ -31,10 +31,35 @@ class UserService {
     await UserRepository.deleteUserToken(userId);
   }
 
+  public async findUserByEmail(email: string): Promise<any> {
+    return await UserRepository.findUserByEmail(email);
+  }
+
+  public async findUserById(userId: string): Promise<any> {
+    return await UserRepository.findUserById(userId);
+  }
+
+  public async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+    const hashedInputPassword = this.hashPassword(password);
+    return hashedInputPassword === hashedPassword;
+  }
+
+  public async deleteUserById(userId: string): Promise<void> {
+    await UserRepository.deleteUser(userId);
+  }
+
   private hashPassword(password: string): string {
     const hash = createHash('sha256');
     hash.update(password);
     return hash.digest('hex');
+  }
+
+  public async updateUserByEmail(email: string, updatedData: any): Promise<any> {
+    return await UserRepository.updateUserByEmail(email, updatedData);
+  }
+
+  public async updateUserById(userId: string, updatedData: any): Promise<any> {
+    return await UserRepository.updateUserById(userId, updatedData);
   }
 }
 
