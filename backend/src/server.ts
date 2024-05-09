@@ -4,6 +4,7 @@ import UserController from './controllers/UserController';
 import AdController from './controllers/AdController';
 import AreaController from './controllers/AreaController';
 import NoteController from './controllers/NoteController';
+import MessageController from './controllers/MessageController';
 
 
 const app = express();
@@ -39,6 +40,10 @@ app.post('/note', NoteController.createNote);
 app.get('/note/:id', NoteController.getNoteById);
 app.put('/note/:id', NoteController.updateNote);
 app.delete('/note/:id', NoteController.deleteNote);
+
+// Routes pour les messages
+app.post('/message', MessageController.sendMessage);
+app.get('/message/:email', MessageController.getMessageByEmail);
 
 
 const MONGODB_URI = "mongodb+srv://iliesskalli2:YNOV2024@cluster0.k3rfemn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
