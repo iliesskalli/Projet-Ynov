@@ -4,8 +4,8 @@ import AdService from '../services/AdService';
 class AdController {
   public async createAd(req: Request, res: Response): Promise<void> {
     try {
-      const { titre, prix, ville, superficie, type, meuble, etage, dpe, description } = req.body;
-      const nouvelleAnnonce = await AdService.createAd(titre, prix, ville, superficie, type, meuble, etage, dpe, description);
+      const { titre, prix, ville, superficie, type, pieces, chambres, meuble, etage, dpe, description, parking, box, cave, sousSol, garage, surfaceDuTerrain, ascenseur, accesHandicapes } = req.body;
+      const nouvelleAnnonce = await AdService.createAd(titre, prix, ville, superficie, type, pieces, chambres, meuble, etage, dpe, description, parking, box, cave, sousSol, garage, surfaceDuTerrain, ascenseur, accesHandicapes);
       res.status(201).json(nouvelleAnnonce);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
@@ -51,6 +51,16 @@ class AdController {
         return;
       }
       res.status(200).json(ad);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  public async getAdBy(req: Request, res: Response): Promise<void> {
+    try {
+      const { field, value } = req.params;
+      const ads = await AdService.getAdBy(field, value);
+      res.status(200).json(ads);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }

@@ -1,8 +1,48 @@
 import Ad from '../models/Ad';
 
 class AdRepository {
-  public async createAd(titre: string, prix: number, ville: string, superficie: number): Promise<any> {
-    const newAd = new Ad({ titre, prix, ville, superficie });
+  public async createAd(
+    titre: string,
+    prix: string,
+    ville: string,
+    superficie: string,
+    type: string,
+    pieces: number,
+    chambres: number,
+    meuble?: string,
+    etage?: string,
+    dpe?: string,
+    description?: string,
+    parking?: string,
+    box?: string,
+    cave?: string,
+    sousSol?: string,
+    garage?: string,
+    surfaceDuTerrain?: string,
+    ascenseur?: string,
+    accesHandicapes?: string
+  ): Promise<any> {
+    const newAd = new Ad({
+      titre,
+      prix,
+      ville,
+      superficie,
+      type,
+      pieces,
+      chambres,
+      meuble,
+      etage,
+      dpe,
+      description,
+      parking,
+      box,
+      cave,
+      sousSol,
+      garage,
+      surfaceDuTerrain,
+      ascenseur,
+      accesHandicapes
+    });
     await newAd.save();
     return newAd;
   }

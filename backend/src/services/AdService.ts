@@ -1,8 +1,48 @@
 import Ad from '../models/Ad';
 
 class AdService {
-  public async createAd(titre: string, prix: number, ville: string, superficie: number, type: string, meuble: string, etage: number, dpe: string, description: string): Promise<any> {
-    const nouvelleAnnonce = new Ad({ titre, prix, ville, superficie, type, meuble, etage, dpe, description });
+  public async createAd(
+    titre: string,
+    prix: string,
+    ville: string,
+    superficie: string,
+    type: string,
+    pieces: number,
+    chambres: number,
+    meuble?: string,
+    etage?: string,
+    dpe?: string,
+    description?: string,
+    parking?: string,
+    box?: string,
+    cave?: string,
+    sousSol?: string,
+    garage?: string,
+    surfaceDuTerrain?: string,
+    ascenseur?: string,
+    accesHandicapes?: string
+  ): Promise<any> {
+    const nouvelleAnnonce = new Ad({
+      titre,
+      prix,
+      ville,
+      superficie,
+      type,
+      pieces,
+      chambres,
+      meuble,
+      etage,
+      dpe,
+      description,
+      parking,
+      box,
+      cave,
+      sousSol,
+      garage,
+      surfaceDuTerrain,
+      ascenseur,
+      accesHandicapes
+    });
     await nouvelleAnnonce.save();
     return nouvelleAnnonce;
   }
@@ -43,6 +83,17 @@ class AdService {
     } catch (error) {
       console.error('Erreur lors de la récupération de l\'annonce par ID :', error);
       throw new Error('Échec de la récupération de l\'annonce par ID');
+    }
+  }
+
+  public async getAdBy(field: string, value: any): Promise<any> {
+    try {
+      const query = { [field]: value };
+      const ads = await Ad.find(query);
+      return ads;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des annonces par ${field} :`, error);
+      throw new Error(`Échec de la récupération des annonces par ${field}`);
     }
   }
 }

@@ -6,13 +6,12 @@ import AreaController from './controllers/AreaController';
 import NoteController from './controllers/NoteController';
 import MessageController from './controllers/MessageController';
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Routes pour les utilisateurs
+// Routes for users
 app.post('/register', UserController.register);
 app.post('/login', UserController.login);
 app.post('/logout', UserController.logout);
@@ -20,35 +19,33 @@ app.get('/user/:id', UserController.getUserById);
 app.put('/user/:id', UserController.updateUserById);
 app.delete('/user/:id', UserController.deleteUserById);
 
-// Routes pour les annonces
+// Routes for ads
 app.post('/ad', AdController.createAd);
 app.put('/ad/:id', AdController.updateAd);
 app.delete('/ad/:id', AdController.deleteAd);
 app.get('/ad', AdController.getAllAd);
 app.get('/ad/:id', AdController.getAdById);
 
-
-// Routes pour les zones
+// Routes for areas
 app.post('/area', AreaController.createArea);
 app.get('/areas', AreaController.getAllAreas);
 app.get('/area/:id', AreaController.getAreaById);
 app.put('/area/:id', AreaController.updateArea);
 app.delete('/area/:id', AreaController.deleteArea);
 
-// Routes pour les notes
+// Routes for notes
 app.post('/note', NoteController.createNote);
 app.get('/note/:id', NoteController.getNoteById);
 app.put('/note/:id', NoteController.updateNote);
 app.delete('/note/:id', NoteController.deleteNote);
 
-// Routes pour les messages
+// Routes for messages
 app.post('/message', MessageController.sendMessage);
 app.get('/message/:email', MessageController.getMessageByEmail);
 
+const MONGODB_URI = "mongodb+srv://iliesskalli2:YNOV2024@cluster0.x9buxyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-const MONGODB_URI = "mongodb+srv://iliesskalli2:YNOV2024@cluster0.k3rfemn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI)
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
